@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PartialDischargeMeasurementApp": {
+      "commandName": "Project",
+      "commandLineArgs": "1.txt"
+    }
+  }
+}
