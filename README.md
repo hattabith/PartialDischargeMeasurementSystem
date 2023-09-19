@@ -1,7 +1,7 @@
 # PartialDischargeMeasurementSystem
 Partial discharge measurement system
 
-## Main idea
+## Abstract
 
 The program is designed for measuring **partial discharges** (PD) and calculating their energy under specific conditions.   
 Measuring and analyzing PD is of paramount importance in the context of studying processes in insulation, as well as for preventing equipment malfunctions during operation. According to international standards, a partial discharge is defined as an electrical discharge that is locally bypassed by insulation on a specific section of the structure.   
