@@ -16,6 +16,13 @@
 # Mono auto generated files
 mono_crash.*
 
+# Temp directory @hattabith	
+[Tt]emp/
+
+#Excel @hattabith
+*.xls
+*.xlsx
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
