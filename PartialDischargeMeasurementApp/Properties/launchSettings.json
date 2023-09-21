@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PartialDischargeMeasurementApp": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Dmitriy\\source\\repos\\PartialDischargeMeasurementSystem\\PartialDischargeMeasurementApp\\Temp\\cutData1.txt"
+    }
+  }
+}
