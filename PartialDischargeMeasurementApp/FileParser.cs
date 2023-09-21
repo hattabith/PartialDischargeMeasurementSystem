@@ -43,7 +43,7 @@ public class FileParser
         List<ParsedData> data = new List<ParsedData>();
         foreach (string line in lines)
         {
-            string[] elements = line.Split(' ');
+            string[] elements = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (elements.Length != 3)
             {
                 throw new Exception("File is not in correct format");
