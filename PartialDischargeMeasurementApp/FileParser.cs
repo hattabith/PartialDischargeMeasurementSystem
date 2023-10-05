@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-public class FileParser
+public class FileParser : IFileReader
 {
     private readonly List<ParsedData> _data;
     private string _fileName;
