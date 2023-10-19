@@ -49,8 +49,14 @@ public class WaveHalfPeriodAnalyzer
         }
     }
 
-    public List<ParsedData> GetNextHalfPeriodWave()
+    public List<List<ParsedData>> GetHalfPeriodWaves()  // need make it
     {
+        var halfPeriodWaves = new List<List<ParsedData>>();
+        for (int i = 0; i <= _zeroLevelSignal.Count - 1; i++)
+        {
+            // need thinking about how get part of data
+        }
+
         return _rawDataFromFile;
     }
 }
