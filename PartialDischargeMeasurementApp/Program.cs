@@ -9,6 +9,7 @@
 // Low level signal is: -0.16
 // Less than -0.16 is PD
 
+
 string? fileName = null;
 if (args.Length == 0)
 {
@@ -22,6 +23,12 @@ if (args.Length > 0)
 
 Console.WriteLine("File name is: {0}", fileName);
 Console.WriteLine();
+
+if (fileName.Contains(".xlsx"))
+{
+    Console.WriteLine("I try reading this file...");
+    ExcelFileReader sd = new ExcelFileReader(fileName);
+}
 
 FileParser fileParser = new FileParser(fileName);
 
@@ -77,3 +84,6 @@ Console.WriteLine();
 Console.Write("All power: ");
 Console.WriteLine(AllPower(PDList));
 Console.WriteLine();
+
+
+var WaveTest = new WaveHalfPeriodAnalyzer(fileParser.GetParseFileData());
