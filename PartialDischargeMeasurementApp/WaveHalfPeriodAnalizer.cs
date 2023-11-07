@@ -57,6 +57,7 @@ public class WaveHalfPeriodAnalyzer
             // need thinking about how get part of data
         }
 
-        return _rawDataFromFile;
+        //return _rawDataFromFile;
+        return null;
     }
 }

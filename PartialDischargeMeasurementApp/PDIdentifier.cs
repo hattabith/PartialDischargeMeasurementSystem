@@ -4,28 +4,38 @@ namespace PartialDischargeMeasurementApp
     public class PDIdentifier
     {
         private List<ParsedData> _data;
-        private float _signalLevel;
+        private List<ParsedData> _pdList = new List<ParsedData>();
+        private float _positiveNoize;
+        private float _negativeNoize;
         public PDIdentifier(List<ParsedData> data)
         {
             _data = data;
 
+            var noize = new PDNoizeChecker(_data);
+            _positiveNoize = noize.GetPozitiveNoizeLevel();
+            _negativeNoize = noize.GetNegativeNoizeLevel();
+
             float sum = 0;
 
-            foreach (ParsedData elements in _data)
+            foreach (var elements in _data)
             {
-                sum += Math.Abs(elements.CH2);
+                //if (elements.CH2 > _positiveNoize || elements.CH2 < _negativeNoize) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoize && elements.CH1 > 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoize && elements.CH1 < 0) _pdList.Add(elements);
             }
 
-            var middleNoise = sum / _data.Count;
-            _signalLevel = middleNoise * 2;
-
-            Console.WriteLine();
-            Console.WriteLine("Midle signal noise is: {0}", middleNoise);
-            Console.WriteLine();
         }
-        public float GetSignalLevel()
+        public float GetPozitiveNoizeLevel()
         {
-            return _signalLevel;
+            return _positiveNoize;
+        }
+        public float GetNegativeNoizeLevel()
+        {
+            return _negativeNoize;
+        }
+        public List<ParsedData> GetPartialDischargeList()
+        {
+            return _pdList;
         }
     }
 }
