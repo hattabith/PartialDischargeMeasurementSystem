@@ -83,6 +83,16 @@ foreach (var pd in partialDischarges.GetPartialDischargeList())
     Console.WriteLine("Partial discharge Id: {0}, CH1: {1}, CH2: {2}", pd.Id, pd.CH1, pd.CH2);
 }
 
+Console.WriteLine();
+string? fileNameCSV;
+do
+{
+    Console.WriteLine("Input file name for save data: ");
+    fileNameCSV = Console.ReadLine();
+} while (fileNameCSV == null);
+
+var fileSaver = new SaveRezultToCSV(fileNameCSV, rawDataFromFile);
+
 static void ShowMiddleSum(WaveZeroFinder zeros)
 {
     foreach (var data in zeros.GetMiddleValues())

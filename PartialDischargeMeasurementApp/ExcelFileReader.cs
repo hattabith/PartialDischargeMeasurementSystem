@@ -2,6 +2,7 @@
 using NPOI.XSSF.UserModel;
 using NPOI.SS.Util;
 using NPOI.XSSF.Util;
+using System.Globalization;
 
 public class ExcelFileReader : IFileReader
 {
@@ -15,12 +16,17 @@ public class ExcelFileReader : IFileReader
 
         IWorkbook workBook;
 
+        CultureInfo.CurrentCulture = new CultureInfo("en-US");
+        CultureInfo.CurrentUICulture = new CultureInfo("en-US");
+
         using (FileStream stream = new FileStream(_fileName, FileMode.Open, FileAccess.Read))
         {
             workBook = new XSSFWorkbook(stream);
         }
 
         ISheet sheet = workBook.GetSheetAt(0);
+
+
 
         // Чтение данных из ячейки
         /* IRow row = sheet.GetRow(0);
