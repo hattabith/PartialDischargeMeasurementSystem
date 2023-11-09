@@ -1,5 +1,4 @@
-﻿
-namespace PartialDischargeMeasurementApp
+﻿namespace PartialDischargeMeasurementApp.DataProcessing
 {
     public class PDIdentifier
     {

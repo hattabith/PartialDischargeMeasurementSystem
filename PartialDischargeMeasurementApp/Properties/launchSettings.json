@@ -2,7 +2,7 @@
   "profiles": {
     "PartialDischargeMeasurementApp": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Dmitriy\\source\\repos\\PartialDischargeMeasurementSystem\\PartialDischargeMeasurementApp\\Temp\\Test5Wave.txt"
+      "commandLineArgs": "C:\\Users\\Dmitriy\\source\\repos\\PartialDischargeMeasurementSystem\\PartialDischargeMeasurementApp\\Temp\\Test2Wave.txt"
     }
   }
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PartialDischargeMeasurementApp
+namespace PartialDischargeMeasurementApp.DataSavers
 {
     public class SaveRezultToCSV
     {
