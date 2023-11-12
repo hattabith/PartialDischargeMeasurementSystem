@@ -14,7 +14,6 @@
             _positiveNoize = noize.GetPozitiveNoizeLevel();
             _negativeNoize = noize.GetNegativeNoizeLevel();
 
-            float sum = 0;
 
             foreach (var elements in _data)
             {
