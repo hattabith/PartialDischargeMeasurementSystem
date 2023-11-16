@@ -23,6 +23,20 @@
             }
 
         }
+        public PDIdentifier(List<ParsedData> data, float positiveNoize, float negativeNoize)
+        {
+            _data = data;
+            _positiveNoize = positiveNoize;
+            _negativeNoize = negativeNoize;
+
+            foreach (var elements in _data)
+            {
+                //if (elements.CH2 > _positiveNoize || elements.CH2 < _negativeNoize) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoize && elements.CH1 > 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoize && elements.CH1 < 0) _pdList.Add(elements);
+            }
+        }
+
         public float GetPozitiveNoizeLevel()
         {
             return _positiveNoize;

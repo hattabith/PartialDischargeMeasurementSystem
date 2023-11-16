@@ -17,6 +17,21 @@ namespace PartialDischargeMeasurementApp.Analysis
         {
             _pdList = pdList;
 
+            var zeros = new WaveZeroFinder(_pdList);
+            var halfPeriods = new HalfPeriodFinder(zeros.GetZeroData(), _pdList.Count);
+            var noize = new PDNoizeChecker(_pdList);
+            var pd = new PDIdentifier(_pdList);
+
+            var PDElement = new PDHalfPeriodData();
+
+            for (int i = 0; i < halfPeriods.GetRezultHalfPeriodWavePoints().Count - 1; i++)
+            {
+                //var halfPeriodPD = new List<ParsedData>();
+
+                var pdHalfPeriod = (from element in pd.GetPartialDischargeList() where (element.Id >= halfPeriods.GetRezultHalfPeriodWavePoints()[i] && element.Id < halfPeriods.GetRezultHalfPeriodWavePoints()[i + 1]) select element).ToList();
+                var dataHalfPeriod = (from element in pdHalfPeriod where element.)
+                PDElement.PDList.Add(pdHalfPeriod);
+            }
         }
         public List<PDHalfPeriodData> GetPDHalfPeriodsDataCollection() 
         {
