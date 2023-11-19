@@ -19,19 +19,32 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             var zeros = new WaveZeroFinder(_pdList);
             var halfPeriods = new HalfPeriodFinder(zeros.GetZeroData(), _pdList.Count);
-            var noize = new PDNoizeChecker(_pdList);
+            var noise = new PDNoiseChecker(_pdList);
             var pd = new PDIdentifier(_pdList);
 
             var PDElement = new PDHalfPeriodData();
 
-            for (int i = 0; i < halfPeriods.GetRezultHalfPeriodWavePoints().Count - 1; i++)
+            for (var i = 1; i < halfPeriods.GetRezultHalfPeriodWavePoints().Count; i++)
             {
-                //var halfPeriodPD = new List<ParsedData>();
-
-                var pdHalfPeriod = (from element in pd.GetPartialDischargeList() where (element.Id >= halfPeriods.GetRezultHalfPeriodWavePoints()[i] && element.Id < halfPeriods.GetRezultHalfPeriodWavePoints()[i + 1]) select element).ToList();
-                var dataHalfPeriod = (from element in pdHalfPeriod where element.)
-                PDElement.PDList.Add(pdHalfPeriod);
+                var tempElement = new PDHalfPeriodData();
+                for (var j = halfPeriods.GetRezultHalfPeriodWavePoints()[i - 1]; j < halfPeriods.GetRezultHalfPeriodWavePoints()[i]; j++)
+                {
+                    var tempList = new List<ParsedData>();
+                    tempList.Clear();
+                    foreach (var p in pd.GetPartialDischargeList())
+                    {
+                        if (p.Id == j)
+                        {
+                            tempList.Add(p);
+                        }
+                    }
+                    tempElement.PDList = tempList;
+                    if (tempElement.PDList[0].CH1 > 0) tempElement.IsPositiveHalfPeriod = true;
+                    if (tempElement.PDList[0].CH1 < 0) tempElement.IsPositiveHalfPeriod = false;
+                 }
+                PDElement = tempElement;
             }
+
         }
         public List<PDHalfPeriodData> GetPDHalfPeriodsDataCollection() 
         {
@@ -53,7 +66,7 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             foreach (var pd in _pdHalfPeriodList)
             {
-                if (pd.SignVoltage) count += pd.PDList.Count;
+                if (pd.IsPositiveHalfPeriod) count += pd.PDList.Count;
             }
 
             return count;
@@ -64,7 +77,7 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             foreach (var pd in _pdHalfPeriodList)
             {
-                if (!pd.SignVoltage) count += pd.PDList.Count;
+                if (!pd.IsPositiveHalfPeriod) count += pd.PDList.Count;
             }
 
             return count;

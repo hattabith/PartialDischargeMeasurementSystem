@@ -26,7 +26,7 @@ Console.WriteLine("File name is: {0}", fileName);
 Console.WriteLine();
 
 List<ParsedData> rawDataFromFile;
-switch (Path.GetExtension(fileName).ToUpper())
+switch (Path.GetExtension(fileName).ToUpper())  // need refactoring
 {
     case ".DAT":
         throw new Exception("DAT file not processed yet...");
@@ -55,7 +55,7 @@ foreach (var data in zeros.GetZeroData())
 Console.WriteLine("Number of zero points is: " + zeros.GetZeroData().Count);
 
 Console.WriteLine();
-Console.WriteLine("Number of middle calc is: " + zeros.GetMiddleValues().Count);
+Console.WriteLine("Number of middle calk is: " + zeros.GetMiddleValues().Count);
 //ShowMiddleSum(zeros);
 
 var partialDischarges = new PDIdentifier(rawDataFromFile);

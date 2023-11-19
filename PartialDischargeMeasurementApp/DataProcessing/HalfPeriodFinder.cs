@@ -10,22 +10,27 @@ namespace PartialDischargeMeasurementApp.DataProcessing
     {
         private List<int> _zeroPoints;
         private List<int> _rezultWave = new List<int>();
-        private float _avarageWaveLength;
+        private float _averageWaveLength;
 
         public HalfPeriodFinder(List<int> zeroPoints, int rawDataLength)
         {
             _zeroPoints = zeroPoints;
 
-            var avarage = getAvarageWaveLength(_zeroPoints);
+            if (zeroPoints.Count > rawDataLength)
+            {
+                throw new Exception("List zeroPoints count must be less then rawDataLength. Class HalfPeriodFinder. ");
+            }
 
-            _avarageWaveLength = avarage;
+            var average = getAverageWaveLength(_zeroPoints);
+
+            _averageWaveLength = average;
             _rezultWave = _zeroPoints;
-            if (_rezultWave[0] >= avarage * 0.8) _rezultWave.Insert(0, 0);
-            if (_rezultWave[_rezultWave.Count - 1] >= avarage * 0.8) _rezultWave.Add(rawDataLength - 1);
+            if (_rezultWave[0] >= average * 0.8) _rezultWave.Insert(0, 0);
+            if (_rezultWave[_rezultWave.Count - 1] >= average * 0.8) _rezultWave.Add(rawDataLength - 1);
         }
-        public float GetAvarageWaveLength()
+        public float GetAverageWaveLength()
         {
-            return _avarageWaveLength;
+            return _averageWaveLength;
         }
         public List<int> GetRezultHalfPeriodWavePoints()
         {
@@ -35,7 +40,7 @@ namespace PartialDischargeMeasurementApp.DataProcessing
         {
             return _zeroPoints;
         }
-        private float getAvarageWaveLength(List<int> points)
+        private float getAverageWaveLength(List<int> points)
         {
             List<float> distance = new List<float>();
             float rezult = 0f;

@@ -4,46 +4,46 @@
     {
         private List<ParsedData> _data;
         private List<ParsedData> _pdList = new List<ParsedData>();
-        private float _positiveNoize;
-        private float _negativeNoize;
+        private float _positiveNoise;
+        private float _negativeNoise;
         public PDIdentifier(List<ParsedData> data)
         {
             _data = data;
 
-            var noize = new PDNoizeChecker(_data);
-            _positiveNoize = noize.GetPozitiveNoizeLevel();
-            _negativeNoize = noize.GetNegativeNoizeLevel();
+            var noise = new PDNoiseChecker(_data);
+            _positiveNoise = noise.GetPositiveNoiseLevel();
+            _negativeNoise = noise.GetNegativeNoiseLevel();
 
 
             foreach (var elements in _data)
             {
-                //if (elements.CH2 > _positiveNoize || elements.CH2 < _negativeNoize) _pdList.Add(elements);
-                if (elements.CH2 > _positiveNoize && elements.CH1 > 0) _pdList.Add(elements);
-                if (elements.CH2 < _negativeNoize && elements.CH1 < 0) _pdList.Add(elements);
+                //if (elements.CH2 > _positiveNoise || elements.CH2 < _negativeNoise) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoise && elements.CH1 > 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoise && elements.CH1 < 0) _pdList.Add(elements);
             }
 
         }
-        public PDIdentifier(List<ParsedData> data, float positiveNoize, float negativeNoize)
+        public PDIdentifier(List<ParsedData> data, float positiveNoise, float negativeNoise)
         {
             _data = data;
-            _positiveNoize = positiveNoize;
-            _negativeNoize = negativeNoize;
+            _positiveNoise = positiveNoise;
+            _negativeNoise = negativeNoise;
 
             foreach (var elements in _data)
             {
-                //if (elements.CH2 > _positiveNoize || elements.CH2 < _negativeNoize) _pdList.Add(elements);
-                if (elements.CH2 > _positiveNoize && elements.CH1 > 0) _pdList.Add(elements);
-                if (elements.CH2 < _negativeNoize && elements.CH1 < 0) _pdList.Add(elements);
+                //if (elements.CH2 > _positiveNoise || elements.CH2 < _negativeNoise) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoise && elements.CH1 > 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoise && elements.CH1 < 0) _pdList.Add(elements);
             }
         }
 
-        public float GetPozitiveNoizeLevel()
+        public float GetPositiveNoiseLevel()
         {
-            return _positiveNoize;
+            return _positiveNoise;
         }
-        public float GetNegativeNoizeLevel()
+        public float GetNegativeNoiseLevel()
         {
-            return _negativeNoize;
+            return _negativeNoise;
         }
         public List<ParsedData> GetPartialDischargeList()
         {
