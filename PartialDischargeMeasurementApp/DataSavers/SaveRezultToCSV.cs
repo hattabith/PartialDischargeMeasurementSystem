@@ -1,4 +1,5 @@
-﻿using PartialDischargeMeasurementApp.DataProcessing;
+﻿using PartialDischargeMeasurementApp.Analysis;
+using PartialDischargeMeasurementApp.DataProcessing;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -17,23 +18,41 @@ namespace PartialDischargeMeasurementApp.DataSavers
             _filenameCSV = filenameCSV;
             _rawData = rawData;
             var partialDischarge = new PDIdentifier(_rawData);
+            var pdCollection = new PDDataCollection(_rawData);
 
             using (StreamWriter sw = new StreamWriter(_filenameCSV))
             {
-                sw.WriteLine("Data from oscilloscope: ");
+                sw.WriteLine("Дані отримані з осцилографа: ");
                 sw.WriteLine("Id,CH1,CH2");
                 foreach (var item in _rawData)
                 {
                     sw.WriteLine(item.Id.ToString() + "," + item.CH1.ToString() + "," + item.CH2.ToString());
                 }
                 sw.WriteLine();
-                sw.WriteLine("Partial discharge points: ");
+                sw.WriteLine("Точки в яких виникали часткові розряди: ");
                 sw.WriteLine("Id,CH1,CH2");
                 foreach (var pd in partialDischarge.GetPartialDischargeList())
                 {
                     sw.WriteLine(pd.Id.ToString() + "," + pd.CH1.ToString() + "," + pd.CH2.ToString());
                 }
                 sw.WriteLine();
+                sw.WriteLine("Всього часткових розрядів: " + pdCollection.GetAllPDCount());
+                sw.WriteLine();
+                sw.WriteLine("Часткові розряди розділені на півперіоди ");
+                
+                for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
+                {
+                    if (pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Позитивна напруга в півперіоді");
+                    if (!pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Негативна напруга в півперіоді");
+                    sw.WriteLine("Id,CH1,CH2");
+                    for (int j = 0; j < pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList.Count; j++)
+                    {
+                        sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," + 
+                            pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1.ToString() + "," + 
+                            pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString());
+                    }
+                    sw.WriteLine();
+                }
             }
         }
     }
