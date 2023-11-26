@@ -26,7 +26,7 @@ namespace PartialDischargeMeasurementApp.DataProcessing
             _averageWaveLength = average;
             _rezultWave = _zeroPoints;
             if (_rezultWave[0] >= average * 0.8) _rezultWave.Insert(0, 0);
-            if (_rezultWave[_rezultWave.Count - 1] >= average * 0.8) _rezultWave.Add(rawDataLength - 1);
+            if (_rezultWave[_rezultWave.Count - 1] - _rezultWave[_rezultWave.Count - 2] >= average * 0.8) _rezultWave.Add(rawDataLength - 1);
         }
         public float GetAverageWaveLength()
         {
@@ -42,20 +42,22 @@ namespace PartialDischargeMeasurementApp.DataProcessing
         }
         private float getAverageWaveLength(List<int> points)
         {
-            List<float> distance = new List<float>();
-            float rezult = 0f;
 
-            for (int i = 1; i < points.Count; i++)
-            {
-                distance.Add((points[i - 1] + points[i]) / 2);
-            }
-            foreach (var item in distance)
-            {
-                rezult += item;
-            }
-            rezult += rezult / distance.Count - 1;
+            return points[1] - points[0];
+            //List<float> distance = new List<float>();
+            //float rezult = 0f;
 
-            return rezult;
+            //for (int i = 1; i < points.Count; i++)
+            //{
+            //    distance.Add((points[i] - points[i - 1]));
+            //}
+            //foreach (var item in distance)
+            //{
+            //    rezult += item;
+            //}
+            //rezult += rezult / distance.Count - 1;
+
+            //return rezult;
         }
 
     }

@@ -2,7 +2,7 @@
   "profiles": {
     "PartialDischargeMeasurementApp": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Dmitriy\\Documents\\PD_Episode\\1mm2_5v.txt"
+      "commandLineArgs": "C:\\Users\\Dmitriy\\Documents\\PD_Episode\\2_5mm8v.txt"
     }
   }
 }

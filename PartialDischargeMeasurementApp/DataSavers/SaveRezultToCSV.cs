@@ -33,23 +33,27 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine("Точки переходу через нуль");
                 foreach (var zero in pdCollection.GetZeroz())
                 {
-                    sw.Write(zero.ToString());
+                    sw.Write("," + zero.ToString());
                 }
                 sw.WriteLine();
                 sw.WriteLine("Всього часткових розрядів: " + pdCollection.GetAllPDCount());
                 sw.WriteLine();
                 sw.WriteLine("Часткові розряди розділені на півперіоди ");
+
+                var pdCalcAll = new List<float> ();
                 
                 for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
                 {
                     if (pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Позитивна напруга в півперіоді номер " + (i + 1).ToString());
                     if (!pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Негативна напруга в півперіоді номер " + (i + 1).ToString());
-                    sw.WriteLine("Id,CH1,CH2");
+                    sw.WriteLine("Id,CH1,CH2,PD");
                     for (int j = 0; j < pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList.Count; j++)
                     {
                         sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," + 
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1.ToString() + "," + 
-                            pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString());
+                            pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString() + "," +
+                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2));
+
                     }
                     sw.WriteLine();
                 }
