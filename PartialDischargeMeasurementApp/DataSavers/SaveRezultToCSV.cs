@@ -22,18 +22,18 @@ namespace PartialDischargeMeasurementApp.DataSavers
 
             using (StreamWriter sw = new StreamWriter(_filenameCSV))
             {
-                sw.WriteLine("Дані отримані з осцилографа: ");
-                sw.WriteLine("Id,CH1,CH2");
-                foreach (var item in _rawData)
-                {
-                    sw.WriteLine(item.Id.ToString() + "," + item.CH1.ToString() + "," + item.CH2.ToString());
-                }
-                sw.WriteLine();
+
                 sw.WriteLine("Точки в яких виникали часткові розряди: ");
                 sw.WriteLine("Id,CH1,CH2");
                 foreach (var pd in partialDischarge.GetPartialDischargeList())
                 {
                     sw.WriteLine(pd.Id.ToString() + "," + pd.CH1.ToString() + "," + pd.CH2.ToString());
+                }
+                sw.WriteLine();
+                sw.WriteLine("Точки переходу через нуль");
+                foreach (var zero in pdCollection.GetZeroz())
+                {
+                    sw.Write(zero.ToString());
                 }
                 sw.WriteLine();
                 sw.WriteLine("Всього часткових розрядів: " + pdCollection.GetAllPDCount());
@@ -42,8 +42,8 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 
                 for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
                 {
-                    if (pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Позитивна напруга в півперіоді");
-                    if (!pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Негативна напруга в півперіоді");
+                    if (pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Позитивна напруга в півперіоді номер " + (i + 1).ToString());
+                    if (!pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Негативна напруга в півперіоді номер " + (i + 1).ToString());
                     sw.WriteLine("Id,CH1,CH2");
                     for (int j = 0; j < pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList.Count; j++)
                     {
@@ -53,6 +53,28 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     }
                     sw.WriteLine();
                 }
+
+                var pdCalc = new PDCalculator(pdCollection.GetPDHalfPeriodsDataCollection());
+                sw.WriteLine();
+                sw.WriteLine("Середнє значення часткових розрядів за півперіоди: ");
+                foreach(var pd in pdCalc.GetAveragePDCollection())
+                {
+                    sw.Write(pd.ToString() + ",");
+                }
+                sw.WriteLine();
+
+                sw.WriteLine();
+                sw.WriteLine("Медіанне значення часткових розрядів за півперіоди: ");
+                sw.WriteLine(pdCalc.GetMedian());
+                sw.WriteLine();
+
+                sw.WriteLine("Дані отримані з осцилографа: ");
+                sw.WriteLine("Id,CH1,CH2");
+                foreach (var item in _rawData)
+                {
+                    sw.WriteLine(item.Id.ToString() + "," + item.CH1.ToString() + "," + item.CH2.ToString());
+                }
+                sw.WriteLine();
             }
         }
     }
