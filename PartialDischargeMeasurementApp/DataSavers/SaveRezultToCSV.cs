@@ -39,14 +39,12 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine("Total partial discharges: " + pdCollection.GetAllPDCount());
                 sw.WriteLine();
                 sw.WriteLine("Partial discharges are divided into half-periods: ");
-
-                var pdCalcAll = new List<float> ();
                 
                 for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
                 {
                     if (pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Positive voltage in half-period number " + (i + 1).ToString());
                     if (!pdCollection.GetPDHalfPeriodsDataCollection()[i].IsPositiveHalfPeriod) sw.WriteLine("Negative voltage in half-period number " + (i + 1).ToString());
-                    sw.WriteLine("Id,CH1,CH2,PD");
+                    sw.WriteLine("Id,CH1,CH2,Single partial discharge full energy");
                     for (int j = 0; j < pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList.Count; j++)
                     {
                         sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," + 
@@ -57,6 +55,24 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     }
                     sw.WriteLine();
                 }
+
+                var current = new List<float>(); // необхідно придумати як розкласти все по періодам і півперіодам
+                var fullEnergy = new List<float>();
+                foreach (var pd in pdCollection.GetPDHalfPeriodsDataCollection())
+                {
+                    foreach (var elements in pd.PDList)
+                    {
+                        current.Add(Math.Abs(elements.CH2));
+                        fullEnergy.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2));
+                    }
+                }
+                var averageCurrent = current.Sum() / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                var power = fullEnergy.Sum() / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                sw.WriteLine();
+                sw.WriteLine("Average current is: " + averageCurrent.ToString());
+                sw.WriteLine("Power is: " + power.ToString());
+                sw.WriteLine();
+
 
                 var pdCalc = new PDCalculator(pdCollection.GetPDHalfPeriodsDataCollection());
                 sw.WriteLine();
