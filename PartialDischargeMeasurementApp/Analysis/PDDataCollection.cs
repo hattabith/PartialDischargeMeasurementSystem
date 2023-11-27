@@ -40,11 +40,14 @@ namespace PartialDischargeMeasurementApp.Analysis
                     .ToList();
                 bool isPositiveHalfPeriod = partialDischargesInHalfPeriod.Any(d => d.CH1 > 0);
 
-                PDElements.Add(new PDHalfPeriodData
-                {
-                    PDList = partialDischargesInHalfPeriod,
-                    IsPositiveHalfPeriod = isPositiveHalfPeriod
-                });
+                if (partialDischargesInHalfPeriod.Count > 0)
+                { 
+                  PDElements.Add(new PDHalfPeriodData
+                  {
+                      PDList = partialDischargesInHalfPeriod,
+                      IsPositiveHalfPeriod = isPositiveHalfPeriod
+                   });
+            }
             }
 
             _pdHalfPeriodList = PDElements;
@@ -99,7 +102,7 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             return count;
         }
-        public List<int> GetZeroz()
+        public List<int> GetZeros()
         {
             return _zerosData;
         }

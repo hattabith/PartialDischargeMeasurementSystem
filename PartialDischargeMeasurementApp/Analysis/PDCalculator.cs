@@ -45,7 +45,14 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             foreach (var pd in _data)
             {
-                firstPDCollection.Add(pd.PDList[0]);
+                try
+                {
+                    firstPDCollection.Add(pd.PDList[0]);
+                }
+                catch
+                {
+
+                }
             }
 
             _firstPDCollections = firstPDCollection;
