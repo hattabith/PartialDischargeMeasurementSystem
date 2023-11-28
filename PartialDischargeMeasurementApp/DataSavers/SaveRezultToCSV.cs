@@ -73,6 +73,31 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine("Power is: " + power.ToString());
                 sw.WriteLine();
 
+                var currentPositive = new List<float>();
+                var currentNegative = new List<float>();
+                var fullEnergyPositive = new List<float>();
+                var fullEnergyNegative = new List<float>();
+                foreach (var pd in pdCollection.GetPDHalfPeriodsDataCollection())
+                {
+                    if (pd.IsPositiveHalfPeriod)
+                    {
+                        foreach(var elements in pd.PDList)
+                        {
+                            currentPositive.Add(Math.Abs(elements.CH2));
+                            fullEnergyPositive.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2));
+                        }
+                    }
+                    if (!pd.IsPositiveHalfPeriod)
+                    {
+                        foreach (var elements in pd.PDList)
+                        {
+                            currentNegative.Add(Math.Abs(elements.CH2));
+                            fullEnergyNegative.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2));
+                        }
+                    }
+                }
+                var averageCurrentPositive = current.Sum() / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                var powerPositive = fullEnergy.Sum() / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
 
                 var pdCalc = new PDCalculator(pdCollection.GetPDHalfPeriodsDataCollection());
                 sw.WriteLine();
