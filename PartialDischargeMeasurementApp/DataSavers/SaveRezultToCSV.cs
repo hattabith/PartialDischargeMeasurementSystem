@@ -37,7 +37,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     sw.Write("," + zero.ToString());
                 }
                 sw.WriteLine();
-                sw.WriteLine("Total partial discharges: " + pdCollection.GetAllPDCount());
+                sw.WriteLine("Total partial discharges:, " + pdCollection.GetAllPDCount());
                 sw.WriteLine();
                 sw.WriteLine("Partial discharges are divided into half-periods: ");
                 
@@ -105,12 +105,12 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 var averageCurrent = averageCurrentPositive + averageCurrentNegative;
                 var averagePower = powerPositive + powerNegative;
                 sw.WriteLine();
-                sw.WriteLine("Average current is: " + averageCurrent.ToString());
-                sw.WriteLine("Power is: " + averagePower.ToString());
-                sw.WriteLine("Average positive current half periods is: " + averageCurrentPositive.ToString());
-                sw.WriteLine("Average negative current half periods is: " + averageCurrentNegative.ToString());
-                sw.WriteLine("Power positive half periods is: " + powerPositive.ToString());
-                sw.WriteLine("Power negative half periods is: " + powerNegative.ToString());
+                sw.WriteLine("Average current is:, " + averageCurrent.ToString());
+                sw.WriteLine("Power is:, " + averagePower.ToString());
+                sw.WriteLine("Average positive current half periods is:, " + averageCurrentPositive.ToString());
+                sw.WriteLine("Average negative current half periods is:, " + averageCurrentNegative.ToString());
+                sw.WriteLine("Power positive half periods is:, " + powerPositive.ToString());
+                sw.WriteLine("Power negative half periods is:, " + powerNegative.ToString());
                 sw.WriteLine();
 
 
