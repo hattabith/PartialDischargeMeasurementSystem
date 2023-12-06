@@ -17,7 +17,7 @@ if (args.Length == 0)
     {
         Console.WriteLine("Input file name: ");
         fileName = Console.ReadLine();
-    } while (fileName != null);
+    } while (fileName == null);
 
 }
 

@@ -102,8 +102,8 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 var averageCurrentNegative = currentNegative.Sum() / (0.01 * currentNegative.Count);
                 var powerPositive = fullEnergyPositive.Sum() / (0.01 * fullEnergyPositive.Count);
                 var powerNegative = fullEnergyNegative.Sum() / (0.01 * fullEnergyNegative.Count);
-                var averageCurrent = (averageCurrentPositive + averageCurrentNegative) / 2;
-                var averagePower = (powerPositive + powerNegative) / 2;
+                var averageCurrent = averageCurrentPositive + averageCurrentNegative;
+                var averagePower = powerPositive + powerNegative;
                 sw.WriteLine();
                 sw.WriteLine("Average current is: " + averageCurrent.ToString());
                 sw.WriteLine("Power is: " + averagePower.ToString());
