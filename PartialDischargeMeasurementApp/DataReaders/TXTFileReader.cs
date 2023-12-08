@@ -61,7 +61,7 @@ public class TXTFileReader : IFileReader
             ParsedData parsedData = new ParsedData();
             parsedData.Id = int.Parse(elements[0]);
             parsedData.CH1 = float.Parse(elements[1]);
-            parsedData.CH2 = float.Parse(elements[2]) * -1;
+            parsedData.CH2 = float.Parse(elements[2]);
             data.Add(parsedData);
         }
         return data;
