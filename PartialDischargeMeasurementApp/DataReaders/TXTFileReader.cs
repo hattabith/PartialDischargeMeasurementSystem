@@ -1,11 +1,15 @@
 ﻿using System.Globalization;
-public class FileParser : IFileReader
+using System.Linq;
+
+public class TXTFileReader : IFileReader
 {
+    private readonly string _fileName;
     private readonly List<ParsedData> _data;
-    private string _fileName;
-    public FileParser(string file)
+
+    public TXTFileReader (string fileName)
     {
-        _fileName = file;
+        _fileName = fileName;
+
         if (_fileName == null)
         {
             throw new Exception("File name is null");
@@ -28,7 +32,13 @@ public class FileParser : IFileReader
         {
             throw new Exception("File is empty");
         }
-        _data = addParsedElements(lines);
+        string[] dataLines = new string[lines.Length - 5];
+        for (int i = 5; i< lines.Length; i++)
+        {
+            dataLines[i - 5] = lines[i];
+        }
+
+        _data = addParsedElements(dataLines);
     }
     public List<ParsedData> GetParseFileData()
     {

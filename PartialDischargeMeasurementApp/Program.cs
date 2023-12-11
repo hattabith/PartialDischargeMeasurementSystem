@@ -1,89 +1,115 @@
-﻿
+﻿using PartialDischargeMeasurementApp.DataProcessing;
+using PartialDischargeMeasurementApp.DataSavers;
 
 
 
-// C:\Users\Dmitriy\source\repos\PartialDischargeMeasurementSystem\PartialDischargeMeasurementApp\Temp\cutData1.txt
+string? fileName = null;  // C:\Users\Dmitriy\source\repos\PartialDischargeMeasurementSystem\PartialDischargeMeasurementApp\Temp\cutData1.txt
+string? repeat = null;
 
-
-
-// Low level signal is: -0.16
-// Less than -0.16 is PD
-
-
-string? fileName = null;
-if (args.Length == 0)
+do
 {
-    Console.WriteLine("No arguments passed");
-    fileName = "default.txt";
-}
-if (args.Length > 0)
-{
-    fileName = args[0];
-}
 
-Console.WriteLine("File name is: {0}", fileName);
-Console.WriteLine();
-
-if (fileName.Contains(".xlsx"))
-{
-    Console.WriteLine("I try reading this file...");
-    ExcelFileReader sd = new ExcelFileReader(fileName);
-}
-
-FileParser fileParser = new FileParser(fileName);
-
-foreach (ParsedData data in fileParser.GetParseFileData())
-{
-    Console.WriteLine("Id: {0}, CH1: {1}, CH2: {2}", data.Id, data.CH1, data.CH2);
-}
-
-static bool TempPD(ParsedData data)
-{
-    if (data.CH2 < -0.5)
+    if (args.Length > 0)
     {
-        return true;
+        fileName = args[0];
     }
-    return false;
-}
-
-var PDList = new List<ParsedData>();    
-
-foreach (ParsedData data in fileParser.GetParseFileData())
-{
-    if (TempPD(data))
+    if (args.Length == 0)
     {
-        PDList.Add(data);
+        Console.WriteLine("No arguments passed");
+        do
+        {
+            Console.WriteLine("Input file name: ");
+            fileName = Console.ReadLine();
+        } while (fileName == null);
+
     }
-}
 
-Console.WriteLine();
-Console.Write("PDList count: ");
-Console.WriteLine(PDList.Count);
-Console.WriteLine();
-static float PowerPD(ParsedData data)
-{
-    return 0.5f * data.CH1 * data.CH2;
-}
 
-foreach(ParsedData data in PDList)
-{
-    Console.WriteLine("Id: {0}, CH1: {1}, CH2: {2}, Power: {3}", data.Id, data.CH1, data.CH2, PowerPD(data));
-}   
+    Console.WriteLine("File name is: {0}", fileName);
+    Console.WriteLine();
 
-static float AllPower(List<ParsedData> data)
-{
-    float sum = 0;
-    foreach(ParsedData element in data)
+    List<ParsedData> rawDataFromFile;
+    switch (Path.GetExtension(fileName).ToUpper())  // need refactoring
     {
-        sum += PowerPD(element);
+        case ".DAT":
+            throw new Exception("DAT file not processed yet...");
+        case ".TXT":
+            Console.WriteLine("Reading TXT file");
+            rawDataFromFile = new TXTFileReader(fileName).GetParseFileData();
+            break;
+        case ".XLS":
+            Console.WriteLine("Reading Excel file");
+            rawDataFromFile = new ExcelFileReader(fileName).GetParseFileData();
+            break;
+        case ".CSV":
+            throw new Exception("CSV file not processed yet...");
+        default: throw new Exception("File extension incorrect!");
     }
-    return sum;
+
+    //ShowRawData(rawDataFromFile);
+
+    var zeros = new WaveZeroFinder(rawDataFromFile);
+
+    foreach (var data in zeros.GetZeroData())
+    {
+        Console.WriteLine("Zero point is: " + data.ToString());
+    }
+
+    Console.WriteLine("Number of zero points is: " + zeros.GetZeroData().Count);
+
+    Console.WriteLine();
+    Console.WriteLine("Number of middle calk is: " + zeros.GetMiddleValues().Count);
+    //ShowMiddleSum(zeros);
+
+    var partialDischarges = new PDIdentifier(rawDataFromFile);
+
+    Console.WriteLine();
+    Console.WriteLine("Partial discharge count is: " + partialDischarges.GetPartialDischargeList().Count);
+    Console.WriteLine();
+
+    foreach (var pd in partialDischarges.GetPartialDischargeList())
+    {
+        Console.WriteLine("Partial discharge Id: {0}, CH1: {1}, CH2: {2}", pd.Id, pd.CH1, pd.CH2);
+    }
+
+
+
+    //Console.WriteLine(Path.GetFileName(fileName));
+    //Console.WriteLine(Path.GetFileNameWithoutExtension(fileName));
+    //Console.WriteLine(Path.GetFullPath(fileName));
+    //Console.WriteLine(Path.GetPathRoot(fileName));
+    //Console.WriteLine(Path.ChangeExtension(fileName, ".csv"));
+    //Console.WriteLine(fileName);
+
+    //Console.WriteLine();
+    //string? fileNameCSV;
+    //do
+    //{
+    //    Console.WriteLine("Input file name for save data: ");
+    //    fileNameCSV = Console.ReadLine();
+    //} while (fileNameCSV == null);
+
+    var fileSaver = new SaveRezultToCSV(Path.ChangeExtension(fileName, ".csv"), rawDataFromFile);
+
+    Console.WriteLine();
+    Console.WriteLine("Repeat program? 'n' - no");
+    repeat = Console.ReadLine();
+} while (repeat != "n");
+
+static void ShowMiddleSum(WaveZeroFinder zeros)
+{
+    foreach (var data in zeros.GetMiddleValues())
+    {
+        Console.WriteLine("Middle sum is: " + data.ToString());
+    }
+
 }
 
-Console.WriteLine();
-Console.Write("All power: ");
-Console.WriteLine(AllPower(PDList));
-Console.WriteLine();
 
-
-var WaveTest = new WaveHalfPeriodAnalyzer(fileParser.GetParseFileData());
+static void ShowRawData(List<ParsedData> rawDataFromFile)
+{
+    foreach (ParsedData data in rawDataFromFile)
+    {
+        Console.WriteLine("Id: {0}, CH1: {1}, CH2: {2}", data.Id, data.CH1, data.CH2);
+    }
+}

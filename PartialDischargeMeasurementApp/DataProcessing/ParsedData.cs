@@ -1,5 +1,5 @@
 ﻿
-public struct ParsedData
+public struct ParsedData 
 {
     public int Id { get; set; }
     public float CH1 { get; set; }

@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartialDischargeMeasurementApp", "PartialDischargeMeasurementApp.csproj", "{BA0FA8FD-3CDC-4A71-A2E0-9F8D8FB87589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartialDischargeMeasurementSystemTests", "..\PartialDischargeMeasurementSystemTests\PartialDischargeMeasurementSystemTests.csproj", "{866FCB4C-F4C9-4EA6-AABD-7E1926D61ADC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartialDischargeMeasurementSystemTests", "..\PartialDischargeMeasurementSystemTests\PartialDischargeMeasurementSystemTests.csproj", "{866FCB4C-F4C9-4EA6-AABD-7E1926D61ADC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EthernetConnection", "..\USBConnection\EthernetConnection.csproj", "{677CA775-F00C-49E0-8ADA-DCB862337B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{866FCB4C-F4C9-4EA6-AABD-7E1926D61ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{866FCB4C-F4C9-4EA6-AABD-7E1926D61ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{866FCB4C-F4C9-4EA6-AABD-7E1926D61ADC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{677CA775-F00C-49E0-8ADA-DCB862337B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677CA775-F00C-49E0-8ADA-DCB862337B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677CA775-F00C-49E0-8ADA-DCB862337B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677CA775-F00C-49E0-8ADA-DCB862337B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
