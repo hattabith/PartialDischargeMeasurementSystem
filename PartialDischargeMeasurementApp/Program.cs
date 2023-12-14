@@ -4,7 +4,6 @@ using PartialDischargeMeasurementApp.DataSavers;
 
 
 string? fileName = null;  // C:\Users\Dmitriy\source\repos\PartialDischargeMeasurementSystem\PartialDischargeMeasurementApp\Temp\cutData1.txt
-string? repeat = null;
 
 do
 {
@@ -93,8 +92,8 @@ do
 
     Console.WriteLine();
     Console.WriteLine("Repeat program? 'n' - no");
-    repeat = Console.ReadLine();
-} while (repeat != "n");
+    
+} while (Console.ReadKey().Key != ConsoleKey.N);
 
 static void ShowMiddleSum(WaveZeroFinder zeros)
 {
