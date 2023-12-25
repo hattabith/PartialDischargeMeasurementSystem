@@ -45,6 +45,8 @@ do
         default: throw new Exception("File extension incorrect!");
     }
 
+    //test for many files
+
     //ShowRawData(rawDataFromFile);
 
     var zeros = new WaveZeroFinder(rawDataFromFile);
