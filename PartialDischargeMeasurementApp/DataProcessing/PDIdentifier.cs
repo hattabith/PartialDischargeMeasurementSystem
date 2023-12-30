@@ -18,8 +18,8 @@
             foreach (var elements in _data)
             {
                 //if (elements.CH2 > _positiveNoise || elements.CH2 < _negativeNoise) _pdList.Add(elements);
-                if (elements.CH2 > _positiveNoise && elements.CH1 > 0) _pdList.Add(elements);
-                if (elements.CH2 < _negativeNoise && elements.CH1 < 0) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoise && elements.CH1 < 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoise && elements.CH1 > 0) _pdList.Add(elements);
             }
 
         }
@@ -32,8 +32,8 @@
             foreach (var elements in _data)
             {
                 //if (elements.CH2 > _positiveNoise || elements.CH2 < _negativeNoise) _pdList.Add(elements);
-                if (elements.CH2 > _positiveNoise && elements.CH1 > 0) _pdList.Add(elements);
-                if (elements.CH2 < _negativeNoise && elements.CH1 < 0) _pdList.Add(elements);
+                if (elements.CH2 > _positiveNoise && elements.CH1 < 0) _pdList.Add(elements);
+                if (elements.CH2 < _negativeNoise && elements.CH1 > 0) _pdList.Add(elements);
             }
         }
 
