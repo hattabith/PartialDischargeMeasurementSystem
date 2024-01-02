@@ -14,10 +14,13 @@ namespace PartialDischargeMeasurementApp.DataSavers
     {
         private string _filenameCSV;
         private List<ParsedData> _rawData;
-        public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData)
+        private float _coefficient;
+        public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData) : this (filenameCSV, rawData, 1f) { }
+        public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData, float coefficient)
         {
             _filenameCSV = filenameCSV;
             _rawData = rawData;
+            _coefficient = coefficient;
             var partialDischarge = new PDIdentifier(_rawData);
             var pdCollection = new PDDataCollection(_rawData);
 
@@ -52,7 +55,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
                         sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," + 
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1.ToString() + "," + 
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString() + "," +
-                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2));
+                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1 * 1000) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient) * Math.Pow(10, -12));
 
                     }
                     sw.WriteLine();
@@ -86,28 +89,28 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     {
                         foreach(var elements in pd.PDList)
                         {
-                            currentPositive.Add(Math.Abs(elements.CH2));
-                            fullEnergyPositive.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2));
+                            currentPositive.Add((float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12)); //add coef
+                            fullEnergyPositive.Add((float)Math.Abs(elements.CH1) * 1000 * (float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12)); //Add current poz + coef
                         }
                     }
-                    if (!pd.IsPositiveHalfPeriod)
+                    if (!pd.IsPositiveHalfPeriod) 
                     {
                         foreach (var elements in pd.PDList)
                         {
-                            currentNegative.Add(Math.Abs(elements.CH2));
-                            fullEnergyNegative.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2));
+                            currentNegative.Add((float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12));
+                            fullEnergyNegative.Add((float)Math.Abs(elements.CH1) * 1000 * (float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12));
                         }
                     }
                 }
-                var averageCurrentPositive = currentPositive.Sum() / (0.01 * currentPositive.Count);
-                var averageCurrentNegative = currentNegative.Sum() / (0.01 * currentNegative.Count);
-                var powerPositive = fullEnergyPositive.Sum() / (0.01 * fullEnergyPositive.Count);
-                var powerNegative = fullEnergyNegative.Sum() / (0.01 * fullEnergyNegative.Count);
-                var averageCurrent = averageCurrentPositive + averageCurrentNegative;
-                var averagePower = powerPositive + powerNegative;
+                var averageCurrentPositive = currentPositive.Sum() / currentPositive.Count; // * 0.01 * halfperiod count
+                var averageCurrentNegative = currentNegative.Sum() / currentNegative.Count;
+                var powerPositive = fullEnergyPositive.Sum() / fullEnergyPositive.Count;
+                var powerNegative = fullEnergyNegative.Sum() / fullEnergyNegative.Count;
+                var averageCurrent = (currentPositive.Sum() + currentNegative.Sum()) / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                var averagePower = (powerPositive + powerNegative) / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
                 sw.WriteLine();
-                sw.WriteLine("Average current is:," + averageCurrent.ToString());
-                sw.WriteLine("Power is:," + averagePower.ToString());
+                sw.WriteLine("Average current per second is:," + averageCurrent.ToString());
+                sw.WriteLine("Power per second is:," + averagePower.ToString());
                 sw.WriteLine("Average positive current half periods is:," + averageCurrentPositive.ToString());
                 sw.WriteLine("Average negative current half periods is:," + averageCurrentNegative.ToString());
                 sw.WriteLine("Power positive half periods is:," + powerPositive.ToString());
