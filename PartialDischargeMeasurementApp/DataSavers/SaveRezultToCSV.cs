@@ -15,6 +15,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
         private string _filenameCSV;
         private List<ParsedData> _rawData;
         private float _coefficient;
+        private const float tenPowMinus12 = 0.000000000001f;
         public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData) : this (filenameCSV, rawData, 1f) { }
         public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData, float coefficient)
         {
@@ -55,7 +56,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
                         sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," + 
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1.ToString() + "," + 
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString() + "," +
-                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1 * 1000) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient) * Math.Pow(10, -12));
+                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1 * 1000f) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient) * tenPowMinus12);
 
                     }
                     sw.WriteLine();
@@ -89,16 +90,16 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     {
                         foreach(var elements in pd.PDList)
                         {
-                            currentPositive.Add((float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12)); //add coef
-                            fullEnergyPositive.Add((float)Math.Abs(elements.CH1) * 1000 * (float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12)); //Add current poz + coef
+                            currentPositive.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //add coef
+                            fullEnergyPositive.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //Add current poz + coef
                         }
                     }
                     if (!pd.IsPositiveHalfPeriod) 
                     {
                         foreach (var elements in pd.PDList)
                         {
-                            currentNegative.Add((float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12));
-                            fullEnergyNegative.Add((float)Math.Abs(elements.CH1) * 1000 * (float)Math.Abs(elements.CH2) * _coefficient * (float)Math.Pow(10, -12));
+                            currentNegative.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
+                            fullEnergyNegative.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
                         }
                     }
                 }
@@ -106,8 +107,8 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 var averageCurrentNegative = currentNegative.Sum() / currentNegative.Count;
                 var powerPositive = fullEnergyPositive.Sum() / fullEnergyPositive.Count;
                 var powerNegative = fullEnergyNegative.Sum() / fullEnergyNegative.Count;
-                var averageCurrent = (currentPositive.Sum() + currentNegative.Sum()) / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
-                var averagePower = (powerPositive + powerNegative) / (0.01 * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                var averageCurrent = (currentPositive.Sum() + currentNegative.Sum()) / (0.01f * pdCollection.GetPDHalfPeriodsDataCollection().Count);
+                var averagePower = (fullEnergyPositive.Sum() + fullEnergyNegative.Sum()) / (0.01f * pdCollection.GetPDHalfPeriodsDataCollection().Count);
                 sw.WriteLine();
                 sw.WriteLine("Average current per second is:," + averageCurrent.ToString());
                 sw.WriteLine("Power per second is:," + averagePower.ToString());
