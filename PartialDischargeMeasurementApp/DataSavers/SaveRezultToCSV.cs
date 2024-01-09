@@ -27,7 +27,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
 
             using (StreamWriter sw = new StreamWriter(_filenameCSV))
             {
-
+                //Іфму іьер
                 sw.WriteLine("Points at which partial discharges occurred: ");
                 sw.WriteLine("Id,CH1,CH2");
                 foreach (var pd in partialDischarge.GetPartialDischargeList())
