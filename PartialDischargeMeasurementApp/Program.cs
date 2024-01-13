@@ -11,7 +11,7 @@ string? fileName = null;  // C:\Users\Dmitriy\source\repos\PartialDischargeMeasu
 string? inputArgs = null;
 float coeficient = 1;
 
-do
+do  // need refactoring
 {
 
     if (args.Length > 0)
