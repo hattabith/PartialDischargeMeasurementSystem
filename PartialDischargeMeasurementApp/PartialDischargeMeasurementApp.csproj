@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="Controller\" />
+    <Folder Include="view\" />
   </ItemGroup>
 
   <ItemGroup>

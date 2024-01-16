@@ -27,8 +27,8 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             var PDElements = new List<PDHalfPeriodData>();
 
-
-
+         // service = null
+         // line fasctory
 
             for (int i = 0; i < halfPeriods.GetRezultHalfPeriodWavePoints().Count - 2; i++)
             {
@@ -54,7 +54,7 @@ namespace PartialDischargeMeasurementApp.Analysis
         }
 
 
-
+        // TODO Need make excel saver
         public List<PDHalfPeriodData> GetPDHalfPeriodsDataCollection()
         {
             return _pdHalfPeriodList;
