@@ -33,6 +33,8 @@ public class PDNoiseChecker
         _negativeNoise = (noise / negativeNoise.Count) * 2;
 
     }
+
+    // TODO PDNoiseChecker refactoring and return diferent type of noise level
     public float GetPositiveNoiseLevel()
     {
         return _positiveNoise;
