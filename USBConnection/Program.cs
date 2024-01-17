@@ -1,6 +1,5 @@
 ﻿using LibUsbDotNet;
 using LibUsbDotNet.Main;
-using System.Management;
 using System.Net.Sockets;
 using System.Text;
 
@@ -27,7 +26,7 @@ byte[] waveformData = SendSCPICommand(ipAddress, port, scpiCommand);
 
 // Приклад: вивести перші 10 байт
 Console.WriteLine("Байти хвильової форми:");
-for (int i = 0; i < waveformData.Count(); i++) 
+for (int i = 0; i < waveformData.Count(); i++)
 {
     Console.Write(waveformData[i].ToString("X2") + " ");
 }

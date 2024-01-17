@@ -31,7 +31,7 @@ do  // need refactoring
 
     string[] elements = inputArgs.Split(' ', StringSplitOptions.RemoveEmptyEntries);
     fileName = elements[0];
-    if (elements.Length >=2) coeficient = (float)Convert.ToDouble(elements[1]);
+    if (elements.Length >= 2) coeficient = (float)Convert.ToDouble(elements[1]);
 
     Console.WriteLine("File name is: {0}", fileName);
     Console.WriteLine("Coeficient is: {0}", coeficient);
@@ -104,7 +104,7 @@ do  // need refactoring
 
     Console.WriteLine();
     Console.WriteLine("Repeat program? 'n' - no");
-    
+
 } while (Console.ReadKey().Key != ConsoleKey.N);
 
 static void ShowMiddleSum(WaveZeroFinder zeros)

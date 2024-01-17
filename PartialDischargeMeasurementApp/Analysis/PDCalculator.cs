@@ -1,9 +1,4 @@
 ﻿using MathNet.Numerics.Statistics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PartialDischargeMeasurementApp.Analysis
 {
@@ -32,7 +27,7 @@ namespace PartialDischargeMeasurementApp.Analysis
         {
             return 3f;
         }
-        public PDCalculator(List<PDHalfPeriodData> data) : this (data, 1f) { }
+        public PDCalculator(List<PDHalfPeriodData> data) : this(data, 1f) { }
         public PDCalculator(List<PDHalfPeriodData> data, float coefficient)
         {
             _data = data;
@@ -45,7 +40,7 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             foreach (var pd in _data)
             {
-                    firstPDCollection.Add(pd.PDList[0]);
+                firstPDCollection.Add(pd.PDList[0]);
             }
 
             _firstPDCollections = firstPDCollection;
@@ -66,14 +61,14 @@ namespace PartialDischargeMeasurementApp.Analysis
             _averageNegativePDList = averageNegativePDList;
 
             List<float> medianPositivePDList = _data
-                .Where (pd => pd.IsPositiveHalfPeriod)
-                .Select (pd => pd.PDList.OrderBy(parsedData => parsedData.CH2).Select(parsedData => parsedData.CH2).Median())
+                .Where(pd => pd.IsPositiveHalfPeriod)
+                .Select(pd => pd.PDList.OrderBy(parsedData => parsedData.CH2).Select(parsedData => parsedData.CH2).Median())
                 .ToList();
             _medianPositivePDList = medianPositivePDList;
 
             List<float> medianNegativePDList = _data
-                .Where (pd =>  !pd.IsPositiveHalfPeriod)
-                .Select (pd => pd.PDList.OrderBy(parseData => parseData.CH2).Select(parseData => parseData.CH2).Median())
+                .Where(pd => !pd.IsPositiveHalfPeriod)
+                .Select(pd => pd.PDList.OrderBy(parseData => parseData.CH2).Select(parseData => parseData.CH2).Median())
                 .ToList();
             _medianNegativePDList = medianNegativePDList;
 

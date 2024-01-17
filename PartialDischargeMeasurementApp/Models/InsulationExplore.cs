@@ -1,5 +1,4 @@
-﻿using NPOI.HSSF.Record;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PartialDischargeMeasurementApp.Models
 {

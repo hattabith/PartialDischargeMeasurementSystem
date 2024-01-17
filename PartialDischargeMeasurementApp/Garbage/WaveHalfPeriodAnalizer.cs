@@ -1,13 +1,9 @@
-﻿
-using MathNet.Numerics.Statistics;
-using NPOI.SS.Formula;
-
-public class WaveHalfPeriodAnalyzer
+﻿public class WaveHalfPeriodAnalyzer
 {
     private List<ParsedData> _rawDataFromFile;
     private List<float> _zeroLevelSignal;
-    
-    public WaveHalfPeriodAnalyzer (List<ParsedData> rawDataFromFile)
+
+    public WaveHalfPeriodAnalyzer(List<ParsedData> rawDataFromFile)
     {
         _rawDataFromFile = rawDataFromFile;
 
@@ -16,8 +12,8 @@ public class WaveHalfPeriodAnalyzer
 
         foreach (ParsedData element in _rawDataFromFile)
         {
-            if (element.CH1 < minCH1)  minCH1 = element.CH1; 
-            if (element.CH1 > maxCH1)  maxCH1 = element.CH1;
+            if (element.CH1 < minCH1) minCH1 = element.CH1;
+            if (element.CH1 > maxCH1) maxCH1 = element.CH1;
         }
 
         var middleNearZero = (minCH1 + maxCH1) / 2;
@@ -26,7 +22,7 @@ public class WaveHalfPeriodAnalyzer
         Console.WriteLine("Midle zero is: {0}", middleNearZero);
         Console.WriteLine();
 
-        for (int i = 0;  i < _rawDataFromFile.Count - 9; i++)
+        for (int i = 0; i < _rawDataFromFile.Count - 9; i++)
         {
             var middle = new List<float>();
             for (int im = i; im <= i + 9; im++)
@@ -41,9 +37,9 @@ public class WaveHalfPeriodAnalyzer
 
             middleZero /= middle.Count();
 
-            if (middleZero <= middleNearZero) 
-            { 
-                i = i + 9; 
+            if (middleZero <= middleNearZero)
+            {
+                i = i + 9;
                 _zeroLevelSignal.Add(_rawDataFromFile[i].Id);
             }
         }

@@ -25,8 +25,8 @@ foreach (float floatValue in floatArray)
 }
 
 Console.ReadLine();
-    
-    static float[] ConvertBytesToFloatArray(byte[] byteArray, int bytesPerValue, int min12BitValue, int max12BitValue, float minValue, float maxValue)
+
+static float[] ConvertBytesToFloatArray(byte[] byteArray, int bytesPerValue, int min12BitValue, int max12BitValue, float minValue, float maxValue)
 {
     if (byteArray.Length % bytesPerValue != 0)
     {

@@ -1,9 +1,6 @@
-﻿using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using NPOI.SS.Util;
-using NPOI.XSSF.Util;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using System.Globalization;
-using NPOI.HSSF.UserModel;
 
 //add new file record
 public class ExcelFileReader : IFileReader
@@ -36,14 +33,14 @@ public class ExcelFileReader : IFileReader
  
         Console.WriteLine(cellValue); */
 
-            var data = new List<ParsedData>();
+        var data = new List<ParsedData>();
 
-            for (int row = 5; row <= sheet.LastRowNum; row++)
+        for (int row = 5; row <= sheet.LastRowNum; row++)
+        {
+            var parsedData = new ParsedData();
+
+            if (sheet.GetRow(row) != null)
             {
-                var parsedData = new ParsedData();
-
-                if (sheet.GetRow(row) != null)
-                {
                 parsedData.Id = int.Parse(sheet.GetRow(row).GetCell(0).ToString());
                 parsedData.CH1 = float.Parse(sheet.GetRow(row).GetCell(1).ToString());
                 parsedData.CH2 = float.Parse(sheet.GetRow(row).GetCell(2).ToString());
@@ -56,9 +53,9 @@ public class ExcelFileReader : IFileReader
                 //}
                 //Console.WriteLine();
             }
-            }
-            
-            _data =data;
+        }
+
+        _data = data;
     }
     public string GetFileName()
     {

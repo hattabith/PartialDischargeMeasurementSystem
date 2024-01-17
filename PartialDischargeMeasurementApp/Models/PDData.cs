@@ -4,7 +4,7 @@ namespace PartialDischargeMeasurementApp.Models
 {
     public class PDData
     {
-        [Key] 
+        [Key]
         public int PDId { get; set; }
         public int PDIdOscilloscope { get; set; }
         public int ExploreId { get; set; }

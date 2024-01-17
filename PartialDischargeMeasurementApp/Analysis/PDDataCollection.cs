@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NPOI.SS.Formula.Functions;
-using PartialDischargeMeasurementApp.DataProcessing;
-using PartialDischargeMeasurementApp.Analysis;
+﻿using PartialDischargeMeasurementApp.DataProcessing;
 
 namespace PartialDischargeMeasurementApp.Analysis
 {
@@ -27,8 +19,8 @@ namespace PartialDischargeMeasurementApp.Analysis
 
             var PDElements = new List<PDHalfPeriodData>();
 
-         // service = null
-         // line fasctory
+            // service = null
+            // line fasctory
 
             for (int i = 0; i < halfPeriods.GetRezultHalfPeriodWavePoints().Count - 2; i++)
             {
@@ -41,13 +33,13 @@ namespace PartialDischargeMeasurementApp.Analysis
                 bool isPositiveHalfPeriod = partialDischargesInHalfPeriod.Any(d => d.CH1 > 0);
 
                 if (partialDischargesInHalfPeriod.Count > 0)
-                { 
-                  PDElements.Add(new PDHalfPeriodData
-                  {
-                      PDList = partialDischargesInHalfPeriod,
-                      IsPositiveHalfPeriod = isPositiveHalfPeriod
-                   });
-            }
+                {
+                    PDElements.Add(new PDHalfPeriodData
+                    {
+                        PDList = partialDischargesInHalfPeriod,
+                        IsPositiveHalfPeriod = isPositiveHalfPeriod
+                    });
+                }
             }
 
             _pdHalfPeriodList = PDElements;
@@ -55,6 +47,7 @@ namespace PartialDischargeMeasurementApp.Analysis
 
 
         // TODO Need make excel saver
+        // HACK test hack
         public List<PDHalfPeriodData> GetPDHalfPeriodsDataCollection()
         {
             return _pdHalfPeriodList;

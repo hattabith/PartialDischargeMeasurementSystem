@@ -8,7 +8,7 @@
 public class PartialDischargeHalfPeriodCalc
 {
     private readonly List<PartialDischarhgeStruct> _partialDischargeElements;
-    private readonly List<ParsedData> _parsedData;    
+    private readonly List<ParsedData> _parsedData;
     public PartialDischargeHalfPeriodCalc(List<ParsedData> data)
     {
         if (data == null)

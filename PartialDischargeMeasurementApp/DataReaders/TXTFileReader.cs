@@ -1,12 +1,11 @@
 ﻿using System.Globalization;
-using System.Linq;
 
 public class TXTFileReader : IFileReader
 {
     private readonly string _fileName;
     private readonly List<ParsedData> _data;
 
-    public TXTFileReader (string fileName)
+    public TXTFileReader(string fileName)
     {
         _fileName = fileName;
 
@@ -33,7 +32,7 @@ public class TXTFileReader : IFileReader
             throw new Exception("File is empty");
         }
         string[] dataLines = new string[lines.Length - 5];
-        for (int i = 5; i< lines.Length; i++)
+        for (int i = 5; i < lines.Length; i++)
         {
             dataLines[i - 5] = lines[i];
         }
