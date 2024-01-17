@@ -20,7 +20,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
 
             using (StreamWriter sw = new StreamWriter(_filenameCSV))
             {
-                // TODO testing multiline
+                // TODO: Testing multiline
                 // does it
                 sw.WriteLine("Points at which partial discharges occurred: ");
                 sw.WriteLine("Id,CH1,CH2");
