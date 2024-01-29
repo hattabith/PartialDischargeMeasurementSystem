@@ -1,7 +1,4 @@
-﻿
-using System.Linq;
-
-public class WaveZeroFinder
+﻿public class WaveZeroFinder
 {
     private List<ParsedData> _rawData;
     private List<int> _zeroPoints;
@@ -17,12 +14,12 @@ public class WaveZeroFinder
         float middleSum = 0f;
         var zeroPoints = new List<int>();
         var middleValues = new List<float>();
-        minimumZero = _rawData.Max(item => item.CH1) * 0.04f; 
+        minimumZero = _rawData.Max(item => item.CH1) * 0.04f;
 
-        for (int i = 0;  i < _rawData.Count - filterWidth - 1; i++)
+        for (int i = 0; i < _rawData.Count - filterWidth - 1; i++)
         {
-             
-            for (int j = i; j < i + filterWidth;  j++)
+
+            for (int j = i; j < i + filterWidth; j++)
             {
                 middleSum = middleSum + _rawData[j].CH1;
             }
@@ -31,7 +28,7 @@ public class WaveZeroFinder
             if (middleSum <= minimumZero && middleSum >= (minimumZero * -1))
             {
                 //_zeroPoints.Add((int)_rawData[(i + (filterWidth / 2))].Id);
-                zeroPoints.Add(i + (filterWidth / 2 ) + 1);
+                zeroPoints.Add(i + (filterWidth / 2) + 1);
                 i += (int)(filterWidth / 2);
             }
             middleSum = 0f;

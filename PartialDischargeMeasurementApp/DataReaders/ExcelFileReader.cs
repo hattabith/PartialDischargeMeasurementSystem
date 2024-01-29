@@ -1,9 +1,8 @@
-﻿using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using NPOI.SS.Util;
-using NPOI.XSSF.Util;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using System.Globalization;
 
+//add new file record
 public class ExcelFileReader : IFileReader
 {
     private readonly string _fileName;
@@ -21,7 +20,7 @@ public class ExcelFileReader : IFileReader
 
         using (FileStream stream = new FileStream(_fileName, FileMode.Open, FileAccess.Read))
         {
-            workBook = new XSSFWorkbook(stream);
+            workBook = new HSSFWorkbook(stream);
         }
 
         ISheet sheet = workBook.GetSheetAt(0);
@@ -34,20 +33,29 @@ public class ExcelFileReader : IFileReader
  
         Console.WriteLine(cellValue); */
 
-            for (int row = 0; row <= sheet.LastRowNum; row++)
-            {
-                if (sheet.GetRow(row) != null)
-                {
-                    for (int col = 0; col <= sheet.GetRow(row).LastCellNum; col++)
-                    {
-                        if (sheet.GetRow(row).GetCell(col) != null) Console.Write($"{sheet.GetRow(row).GetCell(col).ToString()}\t");
-                    Console.Write(' ');
-                    }
-                    Console.WriteLine();
-                }
-            }
-            
+        var data = new List<ParsedData>();
 
+        for (int row = 5; row <= sheet.LastRowNum; row++)
+        {
+            var parsedData = new ParsedData();
+
+            if (sheet.GetRow(row) != null)
+            {
+                parsedData.Id = int.Parse(sheet.GetRow(row).GetCell(0).ToString());
+                parsedData.CH1 = float.Parse(sheet.GetRow(row).GetCell(1).ToString());
+                parsedData.CH2 = float.Parse(sheet.GetRow(row).GetCell(2).ToString());
+                data.Add(parsedData);
+
+                //for (int col = 0; col <= sheet.GetRow(row).LastCellNum; col++)
+                //{
+                //    if (sheet.GetRow(row).GetCell(col) != null) Console.Write($"{sheet.GetRow(row).GetCell(col).ToString()}\t");
+                //Console.Write(' ');
+                //}
+                //Console.WriteLine();
+            }
+        }
+
+        _data = data;
     }
     public string GetFileName()
     {
@@ -55,8 +63,6 @@ public class ExcelFileReader : IFileReader
     }
     public List<ParsedData> GetParseFileData()
     {
-        var fileLines = new List<ParsedData>();
-    
-        return fileLines;
+        return _data;
     }
 }

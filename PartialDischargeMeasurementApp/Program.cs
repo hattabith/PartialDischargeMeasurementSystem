@@ -1,31 +1,40 @@
 ﻿using PartialDischargeMeasurementApp.DataProcessing;
 using PartialDischargeMeasurementApp.DataSavers;
+using System.Globalization;
 
 
+
+CultureInfo.CurrentCulture = new CultureInfo("en-US");
+CultureInfo.CurrentUICulture = new CultureInfo("en-US");
 
 string? fileName = null;  // C:\Users\Dmitriy\source\repos\PartialDischargeMeasurementSystem\PartialDischargeMeasurementApp\Temp\cutData1.txt
-string? repeat = null;
+string? inputArgs = null;
+float coeficient = 1;
 
-do
+do  // need refactoring
 {
 
     if (args.Length > 0)
     {
-        fileName = args[0];
+        inputArgs = args[0];
     }
     if (args.Length == 0)
     {
         Console.WriteLine("No arguments passed");
         do
         {
-            Console.WriteLine("Input file name: ");
-            fileName = Console.ReadLine();
-        } while (fileName == null);
+            Console.WriteLine("Input file name or file name and coeficient: ");
+            inputArgs = Console.ReadLine();
+        } while (inputArgs == null);
 
     }
 
+    string[] elements = inputArgs.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+    fileName = elements[0];
+    if (elements.Length >= 2) coeficient = (float)Convert.ToDouble(elements[1]);
 
     Console.WriteLine("File name is: {0}", fileName);
+    Console.WriteLine("Coeficient is: {0}", coeficient);
     Console.WriteLine();
 
     List<ParsedData> rawDataFromFile;
@@ -46,19 +55,21 @@ do
         default: throw new Exception("File extension incorrect!");
     }
 
+    //test for many files
+
     //ShowRawData(rawDataFromFile);
 
     var zeros = new WaveZeroFinder(rawDataFromFile);
 
-    foreach (var data in zeros.GetZeroData())
-    {
-        Console.WriteLine("Zero point is: " + data.ToString());
-    }
+    //foreach (var data in zeros.GetZeroData())
+    //{
+    //    Console.WriteLine("Zero point is: " + data.ToString());
+    //}
 
-    Console.WriteLine("Number of zero points is: " + zeros.GetZeroData().Count);
+    //Console.WriteLine("Number of zero points is: " + zeros.GetZeroData().Count);
 
-    Console.WriteLine();
-    Console.WriteLine("Number of middle calk is: " + zeros.GetMiddleValues().Count);
+    //Console.WriteLine();
+    //Console.WriteLine("Number of middle calk is: " + zeros.GetMiddleValues().Count);
     //ShowMiddleSum(zeros);
 
     var partialDischarges = new PDIdentifier(rawDataFromFile);
@@ -89,12 +100,12 @@ do
     //    fileNameCSV = Console.ReadLine();
     //} while (fileNameCSV == null);
 
-    var fileSaver = new SaveRezultToCSV(Path.ChangeExtension(fileName, ".csv"), rawDataFromFile);
+    var fileSaver = new SaveRezultToCSV(Path.ChangeExtension(fileName, ".csv"), rawDataFromFile, coeficient);
 
     Console.WriteLine();
     Console.WriteLine("Repeat program? 'n' - no");
-    repeat = Console.ReadLine();
-} while (repeat != "n");
+
+} while (Console.ReadKey().Key != ConsoleKey.N);
 
 static void ShowMiddleSum(WaveZeroFinder zeros)
 {
