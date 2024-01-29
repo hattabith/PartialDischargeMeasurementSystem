@@ -38,6 +38,8 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine();
                 sw.WriteLine("Total partial discharges:," + pdCollection.GetAllPDCount());
                 sw.WriteLine();
+                sw.WriteLine("Calibration coefficient:," + _coefficient.ToString());
+                sw.WriteLine();
                 sw.WriteLine("Partial discharges are divided into half-periods: ");
 
                 for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
