@@ -23,14 +23,14 @@ public class PDNoiseChecker
         {
             noise += positiveNoise[i];
         }
-        _positiveNoise = (noise / positiveNoise.Count) * 2;
+        _positiveNoise = (noise / positiveNoise.Count) * 3;
 
         noise = 0;
         for (int i = 0; i < negativeNoise.Count; i++)
         {
             noise += negativeNoise[i];
         }
-        _negativeNoise = (noise / negativeNoise.Count) * 2;
+        _negativeNoise = (noise / negativeNoise.Count) * 3;
 
     }
 

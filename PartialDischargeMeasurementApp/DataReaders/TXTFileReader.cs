@@ -31,10 +31,10 @@ public class TXTFileReader : IFileReader
         {
             throw new Exception("File is empty");
         }
-        string[] dataLines = new string[lines.Length - 5];
-        for (int i = 5; i < lines.Length; i++)
+        string[] dataLines = new string[lines.Length - 11];   // Need 5 for USB save or 11 for Oscillo Save
+        for (int i = 11; i < lines.Length; i++)    // Need 5 for USB save or 11 for Oscillo Save
         {
-            dataLines[i - 5] = lines[i];
+            dataLines[i - 11] = lines[i]; // Need 5 for USB save or 11 for Oscillo Save
         }
 
         _data = addParsedElements(dataLines);
@@ -52,7 +52,7 @@ public class TXTFileReader : IFileReader
         List<ParsedData> data = new List<ParsedData>();
         foreach (string line in lines)
         {
-            string[] elements = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] elements = line.Split("\t\t", StringSplitOptions.RemoveEmptyEntries);
             if (elements.Length != 3)
             {
                 throw new Exception("File is not in correct format");

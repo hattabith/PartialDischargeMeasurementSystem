@@ -24,10 +24,11 @@ public class OscilloscopeReader
             {
                 string command = ":DATA:WAVE:SCREen:CH2?\n";  // :DATA:WAVE:SCREen:CH2? 
                 string command1 = "*IDN?\n";
-                byte[] commandBytes = Encoding.ASCII.GetBytes(command);
+                string command2 = ":DATA:WAVE:DEPMem:All?\n";
+                byte[] commandBytes = Encoding.ASCII.GetBytes(command1);
                 await stream.WriteAsync(commandBytes, 0, commandBytes.Length);
 
-                byte[] responseBuffer = new byte[5000]; // Adjust buffer size as needed
+                byte[] responseBuffer = new byte[50000]; // Adjust buffer size as needed
                 int bytesRead = await stream.ReadAsync(responseBuffer, 0, responseBuffer.Length);
 
                 return ConvertBytesToInts(responseBuffer, bytesRead);

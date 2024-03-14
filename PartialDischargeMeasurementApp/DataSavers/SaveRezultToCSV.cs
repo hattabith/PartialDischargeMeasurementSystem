@@ -22,12 +22,13 @@ namespace PartialDischargeMeasurementApp.DataSavers
             {
                 // TODO: Testing multiline
                 // does it
-                sw.WriteLine("Points at which partial discharges occurred: ");
-                sw.WriteLine("Id,CH1,CH2");
-                foreach (var pd in partialDischarge.GetPartialDischargeList())
-                {
-                    sw.WriteLine(pd.Id.ToString() + "," + pd.CH1.ToString() + "," + pd.CH2.ToString());
-                }
+                //sw.WriteLine("Points at which partial discharges occurred: ");
+                //sw.WriteLine("Id,CH1,CH2");
+                //foreach (var pd in partialDischarge.GetPartialDischargeList())
+                //{
+                //    sw.WriteLine(pd.Id.ToString() + "," + pd.CH1.ToString() + "," + pd.CH2.ToString());
+                //}
+
                 sw.WriteLine();
                 sw.Write("Zero-crossing points:");
                 foreach (var zero in pdCollection.GetZeros())
@@ -40,7 +41,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine();
                 sw.WriteLine("Calibration coefficient:," + _coefficient.ToString());
                 sw.WriteLine();
-                sw.WriteLine("Partial discharges are divided into half-periods: ");
+                /*sw.WriteLine("Partial discharges are divided into half-periods: ");
 
                 for (int i = 0; i < pdCollection.GetPDHalfPeriodsDataCollection().Count; i++)
                 {
@@ -52,11 +53,15 @@ namespace PartialDischargeMeasurementApp.DataSavers
                         sw.WriteLine(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].Id.ToString() + "," +
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1.ToString() + "," +
                             pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2.ToString() + "," +
-                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1 * 1000f) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient) * tenPowMinus12);
+                            // Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1 * 1000f) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient) * tenPowMinus12); // убрать домножение на 1000 по первому каналу и разделить второй канал на 1000
+                            // цей варіант для збережених даних на флешку
+                            Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH1) * Math.Abs(pdCollection.GetPDHalfPeriodsDataCollection()[i].PDList[j].CH2 * _coefficient / 100f) * tenPowMinus12);
 
-                    }
+            }
                     sw.WriteLine();
                 }
+                */
+
 
                 // UNDONE
 
@@ -88,16 +93,25 @@ namespace PartialDischargeMeasurementApp.DataSavers
                     {
                         foreach (var elements in pd.PDList)
                         {
-                            currentPositive.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //add coef
-                            fullEnergyPositive.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //Add current poz + coef
+                            //currentPositive.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //add coef
+                            //fullEnergyPositive.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12); //Add current poz + coef
+
+                            // цей варіант для збережених даних на флешку
+                            currentPositive.Add(Math.Abs(elements.CH2) * _coefficient / 100f * tenPowMinus12); //add coef
+                            fullEnergyPositive.Add(Math.Abs(elements.CH1) *  Math.Abs(elements.CH2) * _coefficient / 100f * tenPowMinus12);
                         }
                     }
                     if (!pd.IsPositiveHalfPeriod)
                     {
                         foreach (var elements in pd.PDList)
                         {
+                            //currentNegative.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
+                            //fullEnergyNegative.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
+
+
+                            // цей варіант для збережених даних на флешку
                             currentNegative.Add(Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
-                            fullEnergyNegative.Add(Math.Abs(elements.CH1) * 1000f * Math.Abs(elements.CH2) * _coefficient * tenPowMinus12);
+                            fullEnergyNegative.Add(Math.Abs(elements.CH1) * Math.Abs(elements.CH2) * _coefficient / 100f * tenPowMinus12);
                         }
                     }
                 }
@@ -131,12 +145,14 @@ namespace PartialDischargeMeasurementApp.DataSavers
                 sw.WriteLine(pdCalc.GetMedian());
                 sw.WriteLine();
 
-                sw.WriteLine("Data from the oscilloscope: ");
+                /*sw.WriteLine("Data from the oscilloscope: ");
                 sw.WriteLine("Id,CH1,CH2");
                 foreach (var item in _rawData)
                 {
                     sw.WriteLine(item.Id.ToString() + "," + item.CH1.ToString() + "," + item.CH2.ToString());
                 }
+
+                */
                 sw.WriteLine();
             }
         }

@@ -23,6 +23,9 @@
         {
             var data = await oReader.ReadDataAsync();
             oReader.DisplayData(data);
+            Console.WriteLine();
+            Console.WriteLine("Data length");
+            Console.Write(data.Count);
         }
         catch (Exception ex)
         {

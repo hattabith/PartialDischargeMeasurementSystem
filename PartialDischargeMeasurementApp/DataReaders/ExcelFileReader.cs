@@ -35,7 +35,7 @@ public class ExcelFileReader : IFileReader
 
         var data = new List<ParsedData>();
 
-        for (int row = 5; row <= sheet.LastRowNum; row++)
+        for (int row = 11; row <= sheet.LastRowNum; row++)  // Need 5 for USB save or 11 for Oscillo Save
         {
             var parsedData = new ParsedData();
 
