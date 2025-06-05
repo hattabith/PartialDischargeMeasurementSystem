@@ -3,6 +3,12 @@
     private List<ParsedData> _rawDataFromFile;
     private List<float> _zeroLevelSignal;
 
+
+    /// <summary>
+    /// Get half period waves raw data from file
+    /// Type of data is List<ParsedData>
+    /// </summary>
+    /// <param name="rawDataFromFile"></param>
     public WaveHalfPeriodAnalyzer(List<ParsedData> rawDataFromFile)
     {
         _rawDataFromFile = rawDataFromFile;

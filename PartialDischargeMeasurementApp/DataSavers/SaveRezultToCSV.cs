@@ -12,7 +12,7 @@ namespace PartialDischargeMeasurementApp.DataSavers
         public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData) : this(filenameCSV, rawData, 1f) { }
         public SaveRezultToCSV(string filenameCSV, List<ParsedData> rawData, float coefficient)
         {
-            _filenameCSV = filenameCSV;
+            _filenameCSV = filenameCSV.Insert(filenameCSV.Length - 4, "_rezult");
             _rawData = rawData;
             _coefficient = coefficient;
             var partialDischarge = new PDIdentifier(_rawData);

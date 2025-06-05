@@ -43,4 +43,8 @@ public class PDNoiseChecker
     {
         return _negativeNoise;
     }
+    public float GetNoiseLevel()
+    {
+        return (_positiveNoise + _negativeNoise) / 2;
+    }
 }

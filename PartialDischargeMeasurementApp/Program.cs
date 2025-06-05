@@ -3,6 +3,8 @@ using PartialDischargeMeasurementApp.DataSavers;
 using System.Globalization;
 
 
+// RC filter for 10kV 50Hz is 320 pF and 10 MOhm rezistor
+
 
 CultureInfo.CurrentCulture = new CultureInfo("en-US");
 CultureInfo.CurrentUICulture = new CultureInfo("en-US");
@@ -51,11 +53,15 @@ do  // need refactoring
             rawDataFromFile = new ExcelFileReader(fileName).GetParseFileData();
             break;
         case ".CSV":
-            throw new Exception("CSV file not processed yet...");
+            Console.WriteLine("Reading Excel file");
+            rawDataFromFile = new CSVFileReader(fileName).GetParseFileData();
+            break;
         default: throw new Exception("File extension incorrect!");
     }
 
     //test for many files
+
+    // TODO : make test for many files
 
     //ShowRawData(rawDataFromFile);
 
@@ -107,6 +113,9 @@ do  // need refactoring
 
 } while (Console.ReadKey().Key != ConsoleKey.N);
 
+
+
+// TODO : need refactoring ShowMiddleSum
 static void ShowMiddleSum(WaveZeroFinder zeros)
 {
     foreach (var data in zeros.GetMiddleValues())
@@ -117,6 +126,7 @@ static void ShowMiddleSum(WaveZeroFinder zeros)
 }
 
 
+// TODO : need refactoring ShowRawData
 static void ShowRawData(List<ParsedData> rawDataFromFile)
 {
     foreach (ParsedData data in rawDataFromFile)
